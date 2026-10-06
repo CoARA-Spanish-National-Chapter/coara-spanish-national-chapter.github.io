@@ -1,0 +1,15 @@
+---
+import Base from './Base.astro';
+import { sections } from '../data/sections';
+const s = sections.find((x) => x.href === Astro.url.pathname);
+const title = s?.label ?? '';
+---
+<Base title={title} description={s?.summary}>
+  <article class="wrap read page">
+    <p class="eyebrow">Capítulo Nacional Español de CoARA</p>
+    <h1>{title}</h1>
+    <slot>
+      <div class="pending">{s?.summary}</div>
+    </slot>
+  </article>
+</Base>

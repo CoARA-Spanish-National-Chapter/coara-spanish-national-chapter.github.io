@@ -1,0 +1,25 @@
+---
+import Section from '../layouts/Section.astro';
+import { members } from '../data/members';
+---
+<Section>
+  <p class="lead">
+    Forman parte del Capítulo las organizaciones españolas que han firmado el Acuerdo: más de ochenta
+    instituciones, entre ellas universidades, centros de investigación, agencias de evaluación de la
+    calidad, fundaciones y asociaciones.
+  </p>
+
+  <h2>Mapa de organizaciones</h2>
+  <div class="pending">Mapa interactivo de los miembros, con enlace a la página institucional y al plan de acción de cada organización.</div>
+
+  <h2>Listado</h2>
+  <div class="pending">Listado provisional, pendiente de verificación. Se sustituirá por una tabla filtrable con nombre completo, tipo de organización y enlaces.</div>
+  <ul class="chips">
+    {members.map((m) => <li>{m}</li>)}
+  </ul>
+</Section>
+
+<style>
+  .chips { list-style: none; padding: 0; margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .chips li { background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 0.2rem 0.75rem; font-size: 0.88rem; }
+</style>

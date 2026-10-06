@@ -1,0 +1,25 @@
+---
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="ribbon"></div>
+  <div class="wrap footer__inner">
+    <div>
+      <img src="/images/mark.png" alt="" width="48" height="48" />
+      <p>Capítulo Nacional Español de CoARA · {year}</p>
+    </div>
+    <ul>
+      <li><a href="https://www.coara.org/">coara.org</a></li>
+      <li><a href="https://www.coara.org/national-chapters/coara-national-chapter-spain/">El Capítulo en coara.org</a></li>
+      <li><a href="/contacto/">Contacto</a></li>
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .footer { background: #fff; font-size: 0.88rem; color: var(--ink-soft); margin-top: 2rem; }
+  .footer__inner { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; padding-block: 1.5rem; }
+  .footer__inner div { display: flex; align-items: center; gap: 0.8rem; }
+  .footer p { margin: 0; }
+  .footer ul { list-style: none; display: flex; flex-wrap: wrap; gap: 1.2rem; padding: 0; margin: 0; }
+</style>

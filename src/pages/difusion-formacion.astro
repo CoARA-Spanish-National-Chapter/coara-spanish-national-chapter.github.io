@@ -1,0 +1,29 @@
+---
+import Section from '../layouts/Section.astro';
+const formUrl = 'https://coara-spain-dissemination.share.connect.posit.cloud';
+---
+<Section>
+  <p class="lead">
+    El grupo de trabajo de sensibilización y formación recoge las actividades de difusión y de
+    formación sobre la reforma de la evaluación que organizan las instituciones miembro. Cada
+    institución registra sus actividades en el formulario de esta página; el Capítulo las agrega para
+    su seguimiento y para informar a CoARA.
+  </p>
+  <p>
+    Se recomienda guardar el enlace al formulario y registrar cada actividad cuando se celebre.
+  </p>
+  <p><a class="btn" href={formUrl} target="_blank" rel="noopener">Abrir el formulario en una ventana nueva</a></p>
+
+  <h2>Formulario de actividades</h2>
+  <div class="embed">
+    <iframe src={formUrl} title="Formulario de actividades de difusión y formación" loading="lazy"></iframe>
+  </div>
+
+  <h2>Resultados</h2>
+  <div class="pending">Panel con el resumen de las actividades registradas por tipo, institución y periodo.</div>
+</Section>
+
+<style>
+  .embed iframe { display: block; width: 100%; height: 1900px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+  @media (max-width: 700px) { .embed iframe { height: 2400px; } }
+</style>

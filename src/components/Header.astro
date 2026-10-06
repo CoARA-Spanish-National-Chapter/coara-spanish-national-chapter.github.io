@@ -1,0 +1,39 @@
+---
+import { sections } from '../data/sections';
+const path = Astro.url.pathname;
+---
+<header class="masthead">
+  <div class="ribbon"></div>
+  <div class="wrap masthead__inner">
+    <a href="/" class="brand" aria-label="CoARA National Chapter Spain · Inicio">
+      <img src="/images/logo.png" alt="CoARA National Chapter Spain España" width="989" height="181" />
+    </a>
+    <input type="checkbox" id="navtoggle" class="navtoggle" />
+    <label for="navtoggle" class="navbtn" aria-label="Menú"><span></span><span></span><span></span></label>
+    <nav class="nav" aria-label="Principal">
+      {sections.map((s) => (
+        <a href={s.href} class:list={['nav__link', { 'is-active': path.startsWith(s.href) }]}>{s.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .masthead { background: #fff; border-bottom: 2px solid var(--gold); position: sticky; top: 0; z-index: 50; }
+  .masthead__inner { display: flex; align-items: center; justify-content: space-between; gap: 1.2rem; padding-block: 0.7rem; }
+  .brand img { height: 40px; width: auto; display: block; }
+  .nav { display: flex; flex-wrap: wrap; gap: 0.3rem 1.1rem; justify-content: flex-end; }
+  .nav__link { font-size: 0.86rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; border-bottom: 2px solid transparent; padding-block: 0.2em; }
+  .nav__link:hover { color: var(--orange-dark); }
+  .nav__link.is-active { color: var(--orange-dark); border-color: var(--orange); }
+  .navtoggle, .navbtn { display: none; }
+  @media (max-width: 1000px) {
+    .brand img { height: 32px; }
+    .navbtn { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; }
+    .navbtn span { width: 24px; height: 2px; background: var(--ink); }
+    .nav { position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0; background: #fff;
+      border-bottom: 1px solid var(--line); max-height: 0; overflow: hidden; }
+    .nav__link { padding: 0.85rem var(--gutter); border-bottom: 1px solid var(--line); }
+    .navtoggle:checked ~ .nav { max-height: 85vh; }
+  }
+</style>

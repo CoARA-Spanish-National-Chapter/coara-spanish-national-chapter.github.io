@@ -1,0 +1,44 @@
+---
+import '@fontsource/public-sans/400.css';
+import '@fontsource/public-sans/500.css';
+import '@fontsource/public-sans/600.css';
+import '@fontsource/fraunces/600.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const {
+  title,
+  description = 'Capítulo Nacional Español de la Coalición para el Avance de la Evaluación de la Investigación (CoARA).',
+} = Astro.props;
+const fullTitle = title === 'Inicio' ? 'CoARA España' : `${title} · CoARA España`;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <!-- Working version: remove before launch -->
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/png" href="/images/mark.png" />
+    <meta name="theme-color" content="#E07030" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+  </head>
+  <body>
+    <a href="#main" class="skip">Saltar al contenido</a>
+    <div class="draft-banner">Versión de trabajo: el contenido de este sitio está en preparación.</div>
+    <Header />
+    <main id="main"><slot /></main>
+    <Footer />
+    <style is:global>
+      body { min-height: 100vh; display: flex; flex-direction: column; }
+      main { flex: 1 0 auto; }
+    </style>
+  </body>
+</html>
