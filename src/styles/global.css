@@ -32,7 +32,6 @@ img { max-width: 100%; height: auto; }
 .skip { position: absolute; left: -999px; }
 .skip:focus { left: var(--gutter); top: 0.5rem; background: #fff; padding: 0.4rem; z-index: 100; }
 .ribbon { height: 4px; background: linear-gradient(90deg, var(--red) 0%, var(--orange) 50%, var(--gold) 100%); }
-.draft-banner { background: #FFF3DA; color: #6B4A00; font-size: 0.82rem; text-align: center; padding: 0.3rem var(--gutter); }
 .card { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 1.2rem 1.4rem; }
 .pending { border: 1px dashed #D9C9B2; background: #FFFBF4; border-radius: 10px; padding: 0.9rem 1.2rem; color: var(--ink-soft); font-size: 0.95rem; }
 .pending::before { content: "En preparación · "; font-weight: 600; color: var(--orange-dark); }
