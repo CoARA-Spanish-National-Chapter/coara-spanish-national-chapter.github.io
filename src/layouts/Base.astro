@@ -24,8 +24,6 @@ const fullTitle = title === 'Inicio' ? 'CoARA España' : `${title} · CoARA Espa
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <!-- Working version: remove before launch -->
-    <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" type="image/png" href="/images/mark.png" />
     <meta name="theme-color" content="#E07030" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
