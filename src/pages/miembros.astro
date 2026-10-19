@@ -1,25 +1,145 @@
 ---
 import Section from '../layouts/Section.astro';
-import { members } from '../data/members';
+import { members, membersAsOf, type MemberType } from '../data/members';
+import map from '../data/map.json';
+
+const byName = (a: { name: string }, b: { name: string }) => a.name.localeCompare(b.name, 'es');
+const rows = [...members].sort(byName);
+const count = (t: MemberType) => members.filter((m) => m.type === t).length;
+const types: MemberType[] = ['Universidad', 'Agencia', 'Centro de investigación', 'Fundación, asociación o red'];
+
+// One bubble per province, area proportional to the number of members; largest drawn first.
+const perProvince = Object.entries(
+  members.reduce((acc, m) => ({ ...acc, [m.province]: (acc[m.province] ?? 0) + 1 }), {} as Record<string, number>),
+).sort((a, b) => b[1] - a[1]);
+const max = perProvince[0][1];
+const bubbles = perProvince.map(([province, n]) => {
+  const [x, y] = (map.anchors as Record<string, number[]>)[province];
+  return { province, n, x, y, r: Math.max(5, 32 * Math.sqrt(n / max)) };
+});
+const label = (n: number) => `${n} ${n === 1 ? 'organización' : 'organizaciones'}`;
 ---
 <Section>
-  <p class="lead">
-    Forman parte del Capítulo las organizaciones españolas que han firmado el Acuerdo: más de ochenta
-    instituciones, entre ellas universidades, centros de investigación, agencias de evaluación de la
-    calidad, fundaciones y asociaciones.
-  </p>
+  <p class="lead">{
+    `Forman parte del Capítulo ${members.length} organizaciones españolas que han firmado el Acuerdo: ` +
+    `${count('Universidad')} universidades, ${count('Agencia')} agencias de evaluación y financiación, ` +
+    `${count('Centro de investigación')} centros e institutos de investigación y ` +
+    `${count('Fundación, asociación o red')} fundaciones, asociaciones y redes. ` +
+    'Lo copresiden ANECA, la CRUE, el CSIC y el ISCIII.'
+  }</p>
 
   <h2>Mapa de organizaciones</h2>
-  <div class="pending">Mapa interactivo de los miembros, con enlace a la página institucional y al plan de acción de cada organización.</div>
+  <figure class="map">
+    <svg viewBox={`0 0 ${map.width} ${map.height}`} role="group" aria-label="Mapa de España con el número de organizaciones miembro por provincia">
+      <rect class="inset" x={map.inset.x} y={map.inset.y} width={map.inset.w} height={map.inset.h} rx="6" />
+      <path class="land" d={map.fill} />
+      <path class="borders" d={map.provinces} />
+      {bubbles.map((b) => (
+        <a href="#listado" class="bubble" data-province={b.province} aria-label={`${b.province}: ${label(b.n)}`}>
+          <title>{`${b.province}: ${label(b.n)}`}</title>
+          <circle cx={b.x} cy={b.y} r={b.r} />
+          {b.r >= 11 && <text x={b.x} y={b.y} dy="0.35em">{b.n}</text>}
+        </a>
+      ))}
+    </svg>
+    <figcaption>
+      Cada círculo agrupa las organizaciones con sede en una provincia, y su área es proporcional a
+      su número. Al pulsar un círculo, el listado muestra solo esa provincia. Contornos: Instituto
+      Geográfico Nacional (CC BY 4.0).
+    </figcaption>
+  </figure>
 
-  <h2>Listado</h2>
-  <div class="pending">Listado provisional, pendiente de verificación. Se sustituirá por una tabla filtrable con nombre completo, tipo de organización y enlaces.</div>
-  <ul class="chips">
-    {members.map((m) => <li>{m}</li>)}
-  </ul>
+  <h2 id="listado">Listado</h2>
+  <p class="note">Relación de miembros del Capítulo a {membersAsOf}.</p>
+  <div class="filters" hidden>
+    <label>Buscar <input type="search" id="q" placeholder="Nombre o localidad" /></label>
+    <label>Tipo
+      <select id="type">
+        <option value="">Todos</option>
+        {types.map((t) => <option value={t}>{t}</option>)}
+      </select>
+    </label>
+    <span class="province" id="province-tag" hidden>
+      <span id="province-name"></span> <button type="button" id="province-clear" aria-label="Quitar el filtro de provincia">×</button>
+    </span>
+    <span class="shown" id="shown" aria-live="polite"></span>
+  </div>
+  <div class="table-wrap">
+    <table id="members">
+      <thead><tr><th>Organización</th><th>Tipo</th><th>Sede</th></tr></thead>
+      <tbody>
+        {rows.map((m) => (
+          <tr data-type={m.type} data-province={m.province} data-text={`${m.name} ${m.city} ${m.province}`.toLowerCase()}>
+            <td>{m.name}{m.cochair && <span class="badge">Copresidencia</span>}</td>
+            <td>{m.type}</td>
+            <td>{m.city}{m.city !== m.province && <span class="prov"> ({m.province})</span>}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
 </Section>
 
+<script>
+  const rows = [...document.querySelectorAll<HTMLTableRowElement>('#members tbody tr')];
+  const q = document.getElementById('q') as HTMLInputElement;
+  const type = document.getElementById('type') as HTMLSelectElement;
+  const tag = document.getElementById('province-tag')!;
+  const shown = document.getElementById('shown')!;
+  const bubbles = [...document.querySelectorAll<SVGAElement>('.bubble')];
+  let province = '';
+
+  function apply() {
+    const text = q.value.trim().toLowerCase();
+    let n = 0;
+    for (const r of rows) {
+      const ok = (!text || r.dataset.text!.includes(text)) && (!type.value || r.dataset.type === type.value)
+        && (!province || r.dataset.province === province);
+      r.hidden = !ok;
+      if (ok) n++;
+    }
+    shown.textContent = n === rows.length ? `${n} organizaciones` : `${n} de ${rows.length}`;
+    tag.hidden = !province;
+    document.getElementById('province-name')!.textContent = province;
+    for (const b of bubbles) b.classList.toggle('active', b.dataset.province === province);
+  }
+
+  for (const b of bubbles) b.addEventListener('click', () => { province = b.dataset.province!; apply(); });
+  document.getElementById('province-clear')!.addEventListener('click', () => { province = ''; apply(); });
+  q.addEventListener('input', apply);
+  type.addEventListener('change', apply);
+  (document.querySelector('.filters') as HTMLElement).hidden = false;
+  apply();
+</script>
+
 <style>
-  .chips { list-style: none; padding: 0; margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.45rem; }
-  .chips li { background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 0.2rem 0.75rem; font-size: 0.88rem; }
+  .map { margin: 1rem 0 0; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 0.8rem; }
+  .map svg { display: block; width: 100%; height: auto; }
+  .land { fill: var(--cream); stroke: #CDBDA6; stroke-width: 0.8; }
+  .borders { fill: none; stroke: #E3D6C4; stroke-width: 0.6; }
+  .inset { fill: none; stroke: #D9C9B2; stroke-dasharray: 3 3; }
+  .bubble circle { fill: var(--orange); fill-opacity: 0.82; stroke: #fff; stroke-width: 1.5; transition: fill 0.15s; }
+  .bubble:hover circle, .bubble:focus-visible circle { fill: var(--orange-dark); fill-opacity: 1; }
+  .bubble.active circle { fill: var(--red); fill-opacity: 1; }
+  .bubble text { fill: #fff; font: 600 12px var(--sans); text-anchor: middle; pointer-events: none; }
+  .map figcaption { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.5rem; }
+  .note { font-size: 0.9rem; color: var(--ink-soft); margin-top: -0.3rem; }
+  .filters { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; align-items: end; margin: 0.8rem 0 1rem; font-size: 0.9rem; }
+  .filters[hidden], .province[hidden] { display: none; }
+  .filters label { display: flex; flex-direction: column; gap: 0.2rem; font-weight: 600; }
+  .filters input, .filters select { font: inherit; font-weight: 400; padding: 0.35rem 0.5rem; border: 1px solid #D9C9B2; border-radius: 6px; background: #fff; min-width: 12rem; }
+  .province { background: var(--red); color: #fff; border-radius: 999px; padding: 0.2rem 0.4rem 0.2rem 0.75rem; }
+  .province button { background: none; border: 0; color: #fff; font-size: 1.1rem; line-height: 1; cursor: pointer; padding: 0 0.3rem; }
+  .shown { color: var(--ink-soft); margin-left: auto; }
+  .table-wrap { overflow-x: auto; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; }
+  #members th { background: var(--cream); }
+  #members td:first-child { width: 58%; }
+  #members td:nth-child(2), #members td:nth-child(3) { font-size: 0.88rem; color: var(--ink-soft); }
+  .prov { color: #8A8378; }
+  .badge { display: inline-block; margin-left: 0.5rem; font-size: 0.72rem; font-weight: 600; color: var(--orange-dark); border: 1px solid var(--gold); border-radius: 999px; padding: 0 0.5rem; vertical-align: 0.1em; }
+  @media (max-width: 640px) {
+    .filters input, .filters select { min-width: 0; width: 100%; }
+    .filters label { flex: 1 1 100%; }
+    .shown { margin-left: 0; }
+  }
 </style>

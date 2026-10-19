@@ -5,7 +5,7 @@ export const sections = [
   { href: '/capitulo/', label: 'El Capítulo',
     summary: 'Propósito y gobernanza del Capítulo Nacional Español: Grupo de Coordinación y grupos de trabajo.' },
   { href: '/miembros/', label: 'Miembros',
-    summary: 'Mapa y tabla de las organizaciones españolas firmantes, con enlaces a sus planes de acción y páginas institucionales.' },
+    summary: 'Mapa y listado de las organizaciones españolas que forman parte del Capítulo.' },
   { href: '/escam/', label: 'ESCAM',
     summary: 'Catálogo de las iniciativas y prácticas de evaluación responsable de las instituciones españolas.' },
   { href: '/difusion-formacion/', label: 'Difusión y formación',
