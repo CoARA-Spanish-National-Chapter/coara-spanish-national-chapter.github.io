@@ -1,6 +1,50 @@
 ---
 import Section from '../layouts/Section.astro';
+import data from '../data/activities.json';
+
 const formUrl = 'https://coara-spain-dissemination.share.connect.posit.cloud';
+const chapterMail = 'nationalchapterspain@coara.es';
+
+interface Activity {
+  id: string; institution: string; institutionType: string; type: string; category: string;
+  context: string; title: string; description: string; dateStart: string; dateEnd: string;
+  period: string; governance: string; audience: string[]; format: string; topics: string[];
+  urls: string[]; contactName: string; contactEmail: string;
+}
+const acts = data.activities as Activity[];
+
+const es = (a: string, b: string) => a.localeCompare(b, 'es');
+const uniq = (xs: string[]) => [...new Set(xs.filter(Boolean))].sort(es);
+
+const fmt = (d: string) =>
+  new Date(`${d}T12:00:00Z`).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+const when = (a: Activity) => {
+  const parts: string[] = [];
+  if (a.dateStart) parts.push(!a.dateEnd || a.dateEnd === a.dateStart ? fmt(a.dateStart) : `${fmt(a.dateStart)} – ${fmt(a.dateEnd)}`);
+  if (a.period) parts.push(a.dateStart ? `periodo ${a.period}` : a.period);
+  return parts.join(' · ');
+};
+// Years an activity covers: its date range, or the four-digit years named in the period text
+const years = (a: Activity) => {
+  let ys: number[] = [];
+  if (a.dateStart) ys = [+a.dateStart.slice(0, 4), +(a.dateEnd || a.dateStart).slice(0, 4)];
+  else ys = (a.period.match(/\b(19|20)\d{2}\b/g) ?? []).map(Number);
+  if (!ys.length) return [];
+  const out: number[] = [];
+  for (let y = Math.min(...ys); y <= Math.max(...ys); y++) out.push(y);
+  return out;
+};
+
+const institutions = uniq(acts.map((a) => a.institution));
+const types = uniq(acts.map((a) => a.type));
+const topics = uniq(acts.flatMap((a) => a.topics));
+const allYears = [...new Set(acts.flatMap(years))].sort((a, b) => b - a);
+const byInstitution = institutions.map((name) => {
+  const mine = acts.filter((a) => a.institution === name);
+  return { name, n: mine.length, dif: mine.filter((a) => a.type === 'Difusión').length, form: mine.filter((a) => a.type === 'Formación').length };
+});
+const exported = fmt(data.exported);
+const nAct = (n: number) => `${n} ${n === 1 ? 'actividad' : 'actividades'}`;
 ---
 <Section>
   <p class="lead">
@@ -14,6 +58,164 @@ const formUrl = 'https://coara-spain-dissemination.share.connect.posit.cloud';
   </p>
   <p><a class="btn" href={formUrl} target="_blank" rel="noopener">Abrir el formulario en una ventana nueva</a></p>
 
-  <h2>Resultados</h2>
-  <div class="pending">Panel con el resumen de las actividades registradas por tipo, institución y periodo.</div>
+  <h2 id="resultados">Actividades registradas</h2>
+  <p class="note">
+    {nAct(acts.length)} de {institutions.length} {institutions.length === 1 ? 'institución' : 'instituciones'},
+    según los registros del formulario a {exported}. Cada institución es responsable de la información
+    que envía; para ampliarla, use el contacto que figura en la actividad o escriba a{' '}
+    <a href={`mailto:${chapterMail}`}>{chapterMail}</a>.
+  </p>
+
+  <div class="table-wrap summary">
+    <table>
+      <thead><tr><th>Institución</th><th class="num">Difusión</th><th class="num">Formación</th><th class="num">Total</th></tr></thead>
+      <tbody>
+        {byInstitution.map((r) => (
+          <tr>
+            <td><button type="button" class="inst" data-inst={r.name}>{r.name}</button></td>
+            <td class="num">{r.dif || '–'}</td><td class="num">{r.form || '–'}</td><td class="num">{r.n}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="filters" hidden>
+    <label>Buscar <input type="search" id="q" placeholder="Título, descripción, contacto" /></label>
+    <label>Institución
+      <select id="f-inst"><option value="">Todas</option>{institutions.map((x) => <option value={x}>{x}</option>)}</select>
+    </label>
+    <label>Tipo
+      <select id="f-type"><option value="">Todos</option>{types.map((x) => <option value={x}>{x}</option>)}</select>
+    </label>
+    <label>Año
+      <select id="f-year"><option value="">Todos</option>{allYears.map((y) => <option value={y}>{y}</option>)}</select>
+    </label>
+    <label>Temática
+      <select id="f-topic"><option value="">Todas</option>{topics.map((x) => <option value={x}>{x}</option>)}</select>
+    </label>
+    <button type="button" id="f-clear" class="clear">Quitar filtros</button>
+    <span class="shown" id="shown" aria-live="polite"></span>
+  </div>
+
+  <ol class="acts" id="acts">
+    {acts.map((a) => (
+      <li class="act" data-inst={a.institution} data-type={a.type} data-years={years(a).join(' ')}
+          data-topics={a.topics.join('|')}
+          data-text={`${a.title} ${a.description} ${a.institution} ${a.contactName} ${a.governance}`.toLowerCase()}>
+        <p class="meta">
+          <span class="inst-tag">{a.institution}</span>
+          <span class={`type ${a.type === 'Formación' ? 'form' : 'dif'}`}>{a.type}</span>
+          {a.category && <span>{a.category}</span>}
+          {a.context && <span>{a.context}</span>}
+        </p>
+        <h3>{a.title}</h3>
+        {when(a) && <p class="when">{when(a)}</p>}
+        <p class="desc">{a.description}</p>
+        <dl>
+          {a.governance && <><dt>Coordinación</dt><dd class="pre">{a.governance}</dd></>}
+          {a.audience.length > 0 && <><dt>Público</dt><dd>{a.audience.join(', ')}</dd></>}
+          {a.format && <><dt>Formato</dt><dd>{a.format}</dd></>}
+          {a.topics.length > 0 && <><dt>Temáticas</dt><dd class="chips">{a.topics.map((t) => <span class="chip">{t}</span>)}</dd></>}
+          <dt>Contacto</dt>
+          <dd>
+            {a.contactName && <span>{a.contactName}</span>}
+            {a.contactEmail
+              ? <> · <a href={`mailto:${a.contactEmail}`}>{a.contactEmail}</a></>
+              : <>{a.contactName && ' · '}a través de <a href={`mailto:${chapterMail}?subject=${encodeURIComponent(`Actividad ${a.id}: ${a.title}`)}`}>{chapterMail}</a></>}
+          </dd>
+        </dl>
+        {a.urls.length > 0 && (
+          <p class="links">{a.urls.map((u, i) => <a href={u} target="_blank" rel="noopener">{i === 0 ? 'Más información' : 'Enlace adicional'}</a>)}</p>
+        )}
+      </li>
+    ))}
+  </ol>
+  <p class="empty" id="empty" hidden>Ninguna actividad coincide con los filtros.</p>
 </Section>
+
+<script>
+  const items = [...document.querySelectorAll<HTMLLIElement>('#acts .act')];
+  const q = document.getElementById('q') as HTMLInputElement;
+  const inst = document.getElementById('f-inst') as HTMLSelectElement;
+  const type = document.getElementById('f-type') as HTMLSelectElement;
+  const year = document.getElementById('f-year') as HTMLSelectElement;
+  const topic = document.getElementById('f-topic') as HTMLSelectElement;
+  const shown = document.getElementById('shown')!;
+  const empty = document.getElementById('empty')!;
+
+  function apply() {
+    const text = q.value.trim().toLowerCase();
+    let n = 0;
+    for (const it of items) {
+      const d = it.dataset;
+      const ok = (!text || d.text!.includes(text)) && (!inst.value || d.inst === inst.value)
+        && (!type.value || d.type === type.value)
+        && (!year.value || d.years!.split(' ').includes(year.value))
+        && (!topic.value || d.topics!.split('|').includes(topic.value));
+      it.hidden = !ok;
+      if (ok) n++;
+    }
+    shown.textContent = n === items.length ? `${n} actividades` : `${n} de ${items.length}`;
+    empty.hidden = n > 0;
+  }
+
+  for (const el of [inst, type, year, topic]) el.addEventListener('change', apply);
+  q.addEventListener('input', apply);
+  document.getElementById('f-clear')!.addEventListener('click', () => {
+    q.value = ''; inst.value = ''; type.value = ''; year.value = ''; topic.value = ''; apply();
+  });
+  for (const b of document.querySelectorAll<HTMLButtonElement>('button.inst')) {
+    b.addEventListener('click', () => {
+      inst.value = b.dataset.inst!; apply();
+      document.querySelector('.filters')!.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+  (document.querySelector('.filters') as HTMLElement).hidden = false;
+  apply();
+</script>
+
+<style>
+  .note { font-size: 0.9rem; color: var(--ink-soft); margin-top: -0.3rem; }
+  .table-wrap { overflow-x: auto; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; }
+  .summary { max-width: 32rem; margin: 1rem 0 1.5rem; }
+  .summary th { background: var(--cream); }
+  .num { text-align: right; width: 6rem; font-variant-numeric: tabular-nums; }
+  button.inst { background: none; border: 0; padding: 0; font: inherit; font-weight: 600; color: var(--orange-dark); cursor: pointer; text-align: left; }
+  button.inst:hover, button.inst:focus-visible { text-decoration: underline; }
+  .filters { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; align-items: end; margin: 0.8rem 0 1rem; font-size: 0.9rem; }
+  .filters[hidden] { display: none; }
+  .filters label { display: flex; flex-direction: column; gap: 0.2rem; font-weight: 600; }
+  .filters input, .filters select { font: inherit; font-weight: 400; padding: 0.35rem 0.5rem; border: 1px solid #D9C9B2; border-radius: 6px; background: #fff; }
+  .filters input { min-width: 14rem; }
+  .clear { font: inherit; background: none; border: 1px solid #D9C9B2; border-radius: 6px; padding: 0.35rem 0.7rem; cursor: pointer; color: var(--ink-soft); }
+  .clear:hover { border-color: var(--orange); color: var(--orange-dark); }
+  .shown { color: var(--ink-soft); margin-left: auto; }
+  .acts { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.9rem; }
+  .act { background: var(--bg); border: 1px solid var(--line); border-left: 4px solid var(--orange); border-radius: 12px; padding: 0.9rem 1.1rem; }
+  .act[hidden] { display: none; }
+  .act h3 { margin: 0.3rem 0 0.2rem; font-size: 1.1rem; line-height: 1.3; }
+  .meta { display: flex; flex-wrap: wrap; gap: 0.3rem 0.6rem; align-items: center; margin: 0; font-size: 0.8rem; color: var(--ink-soft); }
+  .inst-tag { font-weight: 700; color: var(--ink); }
+  .type { border-radius: 999px; padding: 0 0.55rem; font-weight: 600; }
+  .type.dif { background: #FCE9DC; color: var(--orange-dark); }
+  .type.form { background: #FBEFD6; color: #8A5A00; }
+  .when { margin: 0 0 0.4rem; font-size: 0.88rem; color: var(--ink-soft); }
+  .desc { margin: 0.3rem 0 0.6rem; white-space: pre-line; }
+  .act dl { display: grid; grid-template-columns: 7.5rem 1fr; gap: 0.25rem 0.8rem; margin: 0; font-size: 0.88rem; }
+  .act dt { font-weight: 600; color: var(--ink-soft); }
+  .act dd { margin: 0; overflow-wrap: anywhere; }
+  .pre { white-space: pre-line; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+  .chip { border: 1px solid var(--gold); border-radius: 999px; padding: 0 0.5rem; font-size: 0.8rem; }
+  .links { display: flex; flex-wrap: wrap; gap: 1rem; margin: 0.6rem 0 0; font-size: 0.88rem; font-weight: 600; }
+  .links a::after { content: " ↗"; }
+  .empty { color: var(--ink-soft); font-style: italic; }
+  @media (max-width: 640px) {
+    .filters label { flex: 1 1 100%; }
+    .filters input, .filters select { min-width: 0; width: 100%; }
+    .shown { margin-left: 0; }
+    .act dl { grid-template-columns: 1fr; }
+    .act dt { margin-top: 0.3rem; }
+  }
+</style>
