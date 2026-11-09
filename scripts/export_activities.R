@@ -20,7 +20,9 @@ KEY <- Sys.getenv(
   "COARA_SA_KEY",
   unset = "../Coara_WG4_app/repo_form/app/google-service-account.json"
 )
-OUT <- "src/data/activities.json"
+# COARA_OUT redirects the output, e.g. to compare with the published file
+# without touching it (the /open check).
+OUT <- Sys.getenv("COARA_OUT", unset = "src/data/activities.json")
 
 # submission_id values not to publish (tests, withdrawn entries)
 HIDE <- character(0)
