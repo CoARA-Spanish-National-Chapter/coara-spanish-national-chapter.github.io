@@ -1,5 +1,8 @@
 ---
 import Section from '../layouts/Section.astro';
+// Formulario de fichas de iniciativas, mantenido por Ángel del Vaz (UPO).
+// Página estática con Google Apps Script: incrustarla no consume créditos.
+const formUrl = 'https://adelvaz.github.io/coara/formulario_coara.html';
 ---
 <Section>
   <p class="lead">
@@ -14,5 +17,15 @@ import Section from '../layouts/Section.astro';
   <div class="pending">Catálogo consultable de las fichas, con filtros por institución, tipo de proceso y compromiso del Acuerdo.</div>
 
   <h2>Cómo registrar una iniciativa</h2>
-  <div class="pending">Enlace al formulario de fichas e instrucciones para las instituciones.</div>
+  <p>
+    Cada institución puede registrar sus iniciativas en el formulario de fichas, o completar las
+    que ya tiene, eligiéndola en la lista del principio. Una ficha describe la iniciativa, su
+    gobernanza, el objeto y las dimensiones que evalúa y los indicadores que utiliza.
+  </p>
+  <iframe class="form-embed" src={formUrl} title="Formulario de fichas de iniciativas de evaluación responsable" loading="lazy"></iframe>
+  <p><a class="btn" href={formUrl} target="_blank" rel="noopener">Abrir el formulario en una ventana nueva</a></p>
 </Section>
+
+<style>
+  .form-embed { width: 100%; height: 80vh; min-height: 600px; border: 1px solid #e5ddd0; border-radius: 8px; margin: 0.5rem 0 1rem; }
+</style>
