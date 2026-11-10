@@ -1,5 +1,5 @@
 {
-  "exported": "2026-11-09",
+  "exported": "2026-11-10",
   "activities": [
     {
       "id": "4813027e",
@@ -60,6 +60,26 @@
       "urls": ["https://www.ucm.es/doctorado/bellas-artes/presentacion-ciba6"],
       "contactName": "Pandelis Perakakis",
       "contactEmail": "pperakak@ucm.es"
+    },
+    {
+      "id": "90aef827",
+      "institution": "FECYT",
+      "institutionType": "Otro",
+      "type": "Difusión",
+      "category": "Seminarios informativos y documentos",
+      "context": "Nacional",
+      "title": "Ciencia Abierta y Diplomacia científica",
+      "description": "Sesión sobre ciencia abierta y diplomacia científica dirigida al personal investigador. Se abordan los principales conceptos y prácticas relacionados con la ciencia abierta, incluyendo los requisitos establecidos en Horizonte Europa, el acceso abierto a las publicaciones científicas, la gestión de datos de investigación conforme a los principios FAIR, las licencias, los identificadores persistentes y los planes de gestión de datos. Asimismo, se presentan herramientas y recursos de apoyo de OpenAIRE y Open Research Europe, así como el papel de la diplomacia científica en el fortalecimiento de la cooperación internacional y la conexión entre la ciencia y las políticas públicas.",
+      "dateStart": "2026-03-27",
+      "dateEnd": "2026-03-27",
+      "period": "",
+      "governance": "Unidad de Ciencia Abierta - FECYT",
+      "audience": ["Investigadores"],
+      "format": "En línea",
+      "topics": ["Ciencia abierta", "Datos FAIR", "Otro"],
+      "urls": [],
+      "contactName": "Laura Bonora",
+      "contactEmail": "laura.bonora@fecyt.es"
     },
     {
       "id": "1c3a2cd0",
