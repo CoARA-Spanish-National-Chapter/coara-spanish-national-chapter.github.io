@@ -1,5 +1,5 @@
 {
-  "exported": "2026-11-10",
+  "exported": "2026-11-12",
   "activities": [
     {
       "id": "4813027e",
@@ -120,46 +120,6 @@
       "urls": ["https://pandelisperakakis.info/blog/assets/Negocio_CoARA_UCM.pdf"],
       "contactName": "Pandelis Perakakis",
       "contactEmail": "pperakak@ucm.es"
-    },
-    {
-      "id": "af9315ad",
-      "institution": "FECYT",
-      "institutionType": "Otro",
-      "type": "Formación",
-      "category": "",
-      "context": "",
-      "title": "Ciencia Abierta",
-      "description": "La actividad consiste en una sesión formativa sobre ciencia abierta, dirigida al personal investigador del programa Talent4Iberia. Se abordaron los principales conceptos y prácticas vinculados al acceso abierto a las publicaciones científicas, la gestión de datos de investigación conforme a los principios FAIR y el cumplimiento de los requisitos de ciencia abierta establecidos en Horizonte Europa y en las Acciones Marie Skłodowska-Curie. Se presentaron herramientas y recursos prácticos para elaborar planes de gestión de datos, seleccionar repositorios de confianza, identificar las políticas editoriales, anonimizar datos y publicar resultados de investigación, como ARGOS, Zenodo, OpenAIRE, Amnesia y Open Research Europe. La actividad tuvo como finalidad proporcionar al personal investigador los conocimientos y recursos necesarios para integrar la ciencia abierta en las distintas fases de sus proyectos, favoreciendo una investigación más accesible, transparente, reproducible y colaborativa.",
-      "dateStart": "2026-03-02",
-      "dateEnd": "2026-03-02",
-      "period": "",
-      "governance": "",
-      "audience": ["Investigadores"],
-      "format": "Presencial",
-      "topics": ["Ciencia abierta", "Datos FAIR"],
-      "urls": [],
-      "contactName": "Laura Bonora",
-      "contactEmail": ""
-    },
-    {
-      "id": "72af26c4",
-      "institution": "FECYT",
-      "institutionType": "Otro",
-      "type": "Difusión",
-      "category": "Seminarios informativos y documentos",
-      "context": "Internacional",
-      "title": "Ciencia abierta y diplomacia científica",
-      "description": "La actividad consistió en una sesión formativa sobre ciencia abierta y diplomacia científica, orientada a profundizar en los principios, políticas y prácticas que promueven una investigación más abierta, accesible, transparente y reutilizable. Se abordan las diferencias entre acceso abierto y ciencia abierta, las políticas y mandatos existentes a nivel nacional y europeo y, especialmente, los requisitos de ciencia abierta en Horizonte Europa, incluyendo su incorporación en la preparación y evaluación de propuestas. La sesión prestó especial atención a la gestión de datos de investigación conforme a los principios FAIR, el acceso abierto a publicaciones, las licencias, los identificadores persistentes y los planes de gestión de datos, presentando recursos y herramientas como Zenodo, ARGOS, AMNESIA, OpenAIRE y Open Research Europe. Asimismo, se contextualizan las políticas y modelos de acceso abierto en Europa y América Latina y se presentan algunas de las actuaciones de FECYT para impulsar la ciencia abierta.",
-      "dateStart": "2026-03-02",
-      "dateEnd": "2026-03-02",
-      "period": "",
-      "governance": "Unidad de Ciencia Abierta de FECYT",
-      "audience": ["Personal administrativo"],
-      "format": "En línea",
-      "topics": ["Ciencia abierta", "Datos FAIR"],
-      "urls": [],
-      "contactName": "Laura Bonora",
-      "contactEmail": ""
     },
     {
       "id": "4747f124",
