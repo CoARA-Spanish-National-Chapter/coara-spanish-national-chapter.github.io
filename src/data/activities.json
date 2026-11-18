@@ -202,6 +202,26 @@
       "contactEmail": "pilar.rico@fecyt.es"
     },
     {
+      "id": "1d7b7267",
+      "institution": "FECYT",
+      "institutionType": "Otro",
+      "type": "Difusión",
+      "category": "Seminarios informativos y documentos",
+      "context": "Nacional",
+      "title": "EOSC y la Estrategia Nacional de Ciencia Abierta",
+      "description": "Sesión sobre la European Open Science Cloud (EOSC) y su relación con la Estrategia Nacional de Ciencia Abierta.  Se aborda la Estrategia Nacional de Ciencia Abierta (ENCA), los objetivos y servicios de EOSC para facilitar el acceso federado a datos, herramientas e infraestructuras de investigación, así como los principios FAIR, la interoperabilidad y la gobernanza que sustentan su desarrollo. La sesión analiza la participación española y la necesidad de coordinar políticas, capacidades e infraestructuras nacionales con el ecosistema europeo.",
+      "dateStart": "2026-06-11",
+      "dateEnd": "2026-06-11",
+      "period": "",
+      "governance": "Unidad de Ciencia Abierta - FECYT",
+      "audience": ["Investigadores", "Otro"],
+      "format": "Presencial",
+      "topics": ["Ciencia abierta", "Datos FAIR", "Otro"],
+      "urls": [],
+      "contactName": "Pilar Rico Castro",
+      "contactEmail": "pilar.rico@fecyt.es"
+    },
+    {
       "id": "b806ded2",
       "institution": "FECYT",
       "institutionType": "Otro",
