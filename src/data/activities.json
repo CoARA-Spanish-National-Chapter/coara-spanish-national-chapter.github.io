@@ -1,6 +1,26 @@
 {
-  "exported": "2026-11-18",
+  "exported": "2026-11-20",
   "activities": [
+    {
+      "id": "ba2cd1d5",
+      "institution": "UCM",
+      "institutionType": "Universidad",
+      "type": "Difusión",
+      "category": "Seminarios informativos y documentos",
+      "context": "Internacional",
+      "title": "What it takes for a university to change research assessment: the case of Complutense University of Madrid",
+      "description": "Conferencia invitada en el Slovenian Open Science Day 2026 (The Knowledge Network 2026, Liubliana), en la sesión sobre la reforma de la evaluación de las carreras investigadoras. Presenta la experiencia de la UCM al aplicar los compromisos de CoARA en tres procesos de importancia creciente: el premio extraordinario de doctorado de la Facultad de Psicología, una plaza permanente de investigador para candidatos con certificado R3 y la evaluación externa de los institutos de investigación. Ponente: Pandelis Perakakis. Con vídeo y diapositivas.",
+      "dateStart": "2026-11-19",
+      "dateEnd": "2026-11-19",
+      "period": "",
+      "governance": "Grupo de Trabajo CoARA UCM; Vicerrectorado de Investigación y Transferencia",
+      "audience": ["Investigadores", "Evaluadores", "Personal administrativo"],
+      "format": "Presencial",
+      "topics": ["Principios CoARA", "Evaluación cualitativa", "Métricas responsables", "Ciencia abierta"],
+      "urls": ["https://pandelisperakakis.info/blog/open-science-day-ljubljana-2026.html", "https://video.arnes.si/watch/3cpq3cm488d2"],
+      "contactName": "Pandelis Perakakis",
+      "contactEmail": "pperakakis@ucm.es"
+    },
     {
       "id": "4813027e",
       "institution": "UCM",
@@ -19,7 +39,7 @@
       "topics": ["Principios CoARA", "Métricas responsables", "Evaluación cualitativa", "Ciencia abierta"],
       "urls": ["https://eventos.ucm.es/160584/detail/", "https://tribuna.ucm.es/news/la-universidad-complutense-plan-accion-coara"],
       "contactName": "Pandelis Perakakis",
-      "contactEmail": "pperakak@ucm.es"
+      "contactEmail": "pperakakis@ucm.es"
     },
     {
       "id": "1ba35633",
@@ -399,7 +419,7 @@
       "topics": ["Principios CoARA", "Evaluación cualitativa"],
       "urls": ["https://www.ucm.es/doctorado/bellas-artes/presentacion-ciba6"],
       "contactName": "Pandelis Perakakis",
-      "contactEmail": "pperakak@ucm.es"
+      "contactEmail": "pperakakis@ucm.es"
     },
     {
       "id": "dc04201d",
@@ -579,7 +599,7 @@
       "topics": ["Principios CoARA", "Evaluación cualitativa"],
       "urls": ["https://www.crue.org/2026/03/el-iii-foro-de-capitulos-nacionales-de-coara-reune-en-madrid-a-una-veintena-de-paises-y-a-mas-de-90-agentes-implicados-en-la-reforma-de-la-evaluacion-de-la-investigacion/"],
       "contactName": "Pandelis Perakakis",
-      "contactEmail": "pperakak@ucm.es"
+      "contactEmail": "pperakakis@ucm.es"
     },
     {
       "id": "ac87548e",
@@ -599,7 +619,7 @@
       "topics": ["Principios CoARA", "Métricas responsables", "Ciencia abierta"],
       "urls": ["https://pandelisperakakis.info/blog/assets/Negocio_CoARA_UCM.pdf"],
       "contactName": "Pandelis Perakakis",
-      "contactEmail": "pperakak@ucm.es"
+      "contactEmail": "pperakakis@ucm.es"
     },
     {
       "id": "82fcfa82",
@@ -739,7 +759,7 @@
       "topics": ["Principios CoARA", "Métricas responsables", "Ciencia abierta"],
       "urls": ["https://youtu.be/_HotbWfrZfY"],
       "contactName": "Pandelis Perakakis",
-      "contactEmail": "pperakak@ucm.es"
+      "contactEmail": "pperakakis@ucm.es"
     },
     {
       "id": "7588427f",
@@ -819,7 +839,7 @@
       "topics": ["Principios CoARA", "Métricas responsables", "Ciencia abierta", "CV narrativo"],
       "urls": ["https://doi.org/10.5281/zenodo.18860418", "https://hdl.handle.net/20.500.14352/134037"],
       "contactName": "Pandelis Perakakis",
-      "contactEmail": "pperakak@ucm.es"
+      "contactEmail": "pperakakis@ucm.es"
     },
     {
       "id": "059e1651",
@@ -879,7 +899,7 @@
       "topics": ["Principios CoARA", "Métricas responsables"],
       "urls": [],
       "contactName": "Pandelis Perakakis",
-      "contactEmail": "pperakak@ucm.es"
+      "contactEmail": "pperakakis@ucm.es"
     },
     {
       "id": "6978b13a",
@@ -939,7 +959,7 @@
       "topics": ["Ciencia abierta", "Métricas responsables", "Principios DORA"],
       "urls": [],
       "contactName": "Pandelis Perakakis",
-      "contactEmail": "pperakak@ucm.es"
+      "contactEmail": "pperakakis@ucm.es"
     },
     {
       "id": "fedb8de2",
@@ -959,7 +979,7 @@
       "topics": ["Ética e integridad", "Métricas responsables", "Ciencia abierta"],
       "urls": [],
       "contactName": "Pandelis Perakakis",
-      "contactEmail": "pperakak@ucm.es"
+      "contactEmail": "pperakakis@ucm.es"
     },
     {
       "id": "71f8abac",
@@ -979,7 +999,7 @@
       "topics": ["Principios CoARA", "Métricas responsables", "Ciencia abierta"],
       "urls": ["https://biblioguias.ucm.es/coara"],
       "contactName": "Pandelis Perakakis",
-      "contactEmail": "pperakak@ucm.es"
+      "contactEmail": "pperakakis@ucm.es"
     }
   ]
 }
