@@ -5,7 +5,7 @@
 #   Rscript scripts/export_activities.R        (or: npm run activities)
 #
 # Needs a Google service-account key with read access to the sheet, given in
-# COARA_SA_KEY; by default the form's local key next to this repository in the
+# COARA_SA_KEY; by default the key in ../_secrets, next to this repository in the
 # Work folder. The key is never part of this repository.
 #
 # Only public fields are exported: internal notes are left out, and a contact
@@ -18,7 +18,7 @@ suppressMessages(library(googlesheets4))
 SHEET_ID <- "11KyRgTZEF9co1YiFmWIsUdLcJOISAtAFPbAYIYyfOWo"
 KEY <- Sys.getenv(
   "COARA_SA_KEY",
-  unset = "../Coara_WG4_app/repo_form/app/google-service-account.json"
+  unset = "../_secrets/google-service-account.json"
 )
 # COARA_OUT redirects the output, e.g. to compare with the published file
 # without touching it (the /open check).
