@@ -2,7 +2,7 @@
 import Section from '../layouts/Section.astro';
 import data from '../data/activities.json';
 
-const formUrl = 'https://coara-spain-dissemination.share.connect.posit.cloud';
+const formUrl = '/formulario-wg4/';
 const chapterMail = 'nationalchapterspain@coara.es';
 
 interface Activity {
@@ -56,7 +56,7 @@ const nAct = (n: number) => `${n} ${n === 1 ? 'actividad' : 'actividades'}`;
   <p>
     Se recomienda guardar el enlace al formulario y registrar cada actividad cuando se celebre.
   </p>
-  <p><a class="btn" href={formUrl} target="_blank" rel="noopener">Abrir el formulario en una ventana nueva</a></p>
+  <p><a class="btn" href={formUrl}>Abrir el formulario</a></p>
 
   <h2 id="resultados">Actividades registradas</h2>
   <p class="note">
